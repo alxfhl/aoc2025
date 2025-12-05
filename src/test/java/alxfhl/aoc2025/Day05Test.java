@@ -12,21 +12,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Day05Test {
 
     public static final String EXAMPLE1 = """
+            3-5
+            10-14
+            16-20
+            12-18
+            
+            1
+            5
+            8
+            11
+            17
+            32
             """;
 
     @Test
     void part1() throws IOException, URISyntaxException {
-        assertThat(Day05.solve(EXAMPLE1)).isEqualTo(1_227_775_554L);
+        assertThat(Day05.solve(EXAMPLE1)).isEqualTo(3);
 
         Path path = Path.of(Day05.class.getResource("Day05.txt").toURI());
-        assertThat(Day05.solve(Files.readString(path))).isEqualTo(38_310_256_125L);
+        assertThat(Day05.solve(Files.readString(path))).isEqualTo(681);
     }
 
     @Test
     void part2() throws IOException, URISyntaxException {
-        assertThat(Day05.solve2(EXAMPLE1)).isEqualTo(4_174_379_265L);
+        assertThat(Day05.solve2(EXAMPLE1)).isEqualTo(14);
 
         Path path = Path.of(Day05.class.getResource("Day05.txt").toURI());
-        assertThat(Day05.solve2(Files.readString(path))).isEqualTo(58_961_152_806L);
+        assertThat(Day05.solve2(Files.readString(path))).isEqualTo(348820208020395L);
     }
 }
