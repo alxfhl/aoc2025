@@ -90,7 +90,8 @@ public class CharMatrix {
         int y = 0;
         for (String line : lines) {
             if (line.length() != width) {
-                throw new IllegalArgumentException("All lines must have the same length!");
+                throw new IllegalArgumentException("All lines must have the same length! Expected " + width
+                        + ", got " + lines.stream().map(String::length).toList() + ":");
             }
             int x = 0;
             for (char ch : line.toCharArray()) {
