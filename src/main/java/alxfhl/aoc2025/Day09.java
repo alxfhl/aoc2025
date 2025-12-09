@@ -78,8 +78,8 @@ public class Day09 {
     private static void createScaledMap() {
         allXs = tiles.stream().map(Coord::x).distinct().sorted().toList();
         allYs = tiles.stream().map(Coord::y).distinct().sorted().toList();
-        int mapWidth = allXs.size() * 2;
-        int mapHeight = allYs.size() * 2;
+        int mapWidth = allXs.size() * 2 + 1;
+        int mapHeight = allYs.size() * 2 + 1;
         map = new CharMatrix(mapWidth, mapHeight, ' ');
     }
 
@@ -113,13 +113,7 @@ public class Day09 {
     private static void floodFill() {
         LinkedHashSet<Coord> todo = new LinkedHashSet<>();
         // paint outside with '.'
-        List<Coord> corners = List.of(new Coord(0, 0), new Coord(0, map.getWidth() - 1), new Coord(map.getHeight() - 1, 0),
-                new Coord(map.getWidth() - 1, map.getHeight() - 1));
-        for (Coord corner : corners) {
-            if (map.get(corner) == ' ') {
-                todo.add(corner);
-            }
-        }
+        todo.add(new Coord(0, 0));
         while (!todo.isEmpty()) {
             Coord c = todo.removeLast();
             map.set(c, '.');
@@ -144,10 +138,10 @@ public class Day09 {
     }
 
     private static int shrinkX(long x) {
-        return allXs.indexOf(x) * 2;
+        return allXs.indexOf(x) * 2 + 1;
     }
 
     private static int shrinkY(long y) {
-        return allYs.indexOf(y) * 2;
+        return allYs.indexOf(y) * 2 + 1;
     }
 }
