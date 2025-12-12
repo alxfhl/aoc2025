@@ -25,8 +25,55 @@ public class Day11 {
     }
 
     public static long solve(String s) {
-        long result = 0;
-        return result;
+        Map<String, Node> map = getAllNodes(s);
+        return getPathCount(map, "you", "out");
+    }
+
+    public static long solve2(String s) {
+        Map<String, Node> map = getAllNodes(s);
+        return getPathCount(map, "svr", "fft")
+                * getPathCount(map, "fft", "dac")
+                * getPathCount(map, "dac", "out");
+    }
+
+    private static Long getPathCount(Map<String, Node> map, String start, String end) {
+        // check which subset of nodes is relevant for this task
+        Set<Node> relevant = getReachableNodes(map, start);
+        Map<String, Long> paths = new HashMap<>();
+        paths.put(start, 1L);
+        Queue<Node> todo = new ArrayDeque<>();
+        Set<Node> done = new HashSet<>();
+        todo.add(map.get(start));
+        while (!todo.isEmpty()) {
+            Node node = todo.remove();
+            done.add(node);
+            long value = paths.get(node.name);
+            for (Node next : node.connections) {
+                paths.merge(next.name, value, Long::sum);
+                if (next.incoming.stream().filter(relevant::contains).allMatch(done::contains)) {
+                    todo.add(next);
+                }
+            }
+        }
+        return paths.get(end);
+    }
+
+    private static Set<Node> getReachableNodes(Map<String, Node> map, String start) {
+        Node startNode = map.get(start);
+        Set<Node> reachable = new HashSet<>();
+        reachable.add(startNode);
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(startNode);
+        while (!queue.isEmpty()) {
+            Node next = queue.remove();
+            for (Node connection : next.connections) {
+                if (!reachable.contains(connection)) {
+                    reachable.add(connection);
+                    queue.add(connection);
+                }
+            }
+        }
+        return reachable;
     }
 
     private static Map<String, Node> getAllNodes(String s) {
